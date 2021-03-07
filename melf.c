@@ -79,7 +79,34 @@ static char *parse_elfheader_type(Elf64_Ehdr *elf_buf)
 	case ET_CORE:
 		return "CORE (Core file)";
 	}
+
 	return "NONE (Uknown type)";
+}
+
+static void dump_elfheader(Elf64_Ehdr *elf_buf)
+{
+	printf("Magic   : ");
+
+	for (int i = 0; i < EI_NIDENT; i++)
+		printf("%02x ", elf_buf->e_ident[i]);
+	printf("\n");
+
+	printf("Class                              : ELF%s\n", parse_elfheader_class(elf_buf));
+	printf("Data                               : %s\n", parse_elfheader_data(elf_buf));
+	printf("Version                            : %s\n", parse_elfheader_version(elf_buf));
+	printf("OS/ABI                             : %s\n", parse_elfheader_osabi(elf_buf));
+	printf("ABI version                        : %#x\n", parse_elfheader_abiver(elf_buf));
+	printf("Type                               : %s\n", parse_elfheader_type(elf_buf));
+	printf("Entry virtual address              : %#lx\n", elf_buf->e_entry);
+	printf("Program header table's file offset : %lu bytes\n", elf_buf->e_phoff);
+	printf("Section header table's file offset : %lu bytes\n", elf_buf->e_shoff);
+	printf("Flags                              : %#x\n", elf_buf->e_flags);
+	printf("Size of this ELF header            : %u bytes\n", elf_buf->e_ehsize);
+	printf("Size of program header table       : %u bytes\n", elf_buf->e_phentsize);
+	printf("Number of program header table     : %u\n", elf_buf->e_phnum);
+	printf("Size of section header's           : %u bytes\n", elf_buf->e_shentsize);
+	printf("Number of section header table     : %u\n", elf_buf->e_shnum);
+	printf("Section header table index         : %u\n", elf_buf->e_shstrndx);
 }
 
 int main(int argc, char **argv)
@@ -106,18 +133,9 @@ int main(int argc, char **argv)
 		goto done;
 	}
 
-	Elf64_Ehdr *test = (Elf64_Ehdr *)buffer;
-	if (valid_elfheader(test)) {
-		printf("Magic   : ");
-		for (int i = 0; i < EI_NIDENT; i++)
-			printf("%02x ", test->e_ident[i]);
-		printf("\n");
-		printf("Class   : ELF%s\n", parse_elfheader_class(test));
-		printf("Data    : %s\n", parse_elfheader_data(test));
-		printf("Version : %s\n", parse_elfheader_version(test));
-		printf("OS/ABI  : %s\n", parse_elfheader_osabi(test));
-		printf("ABI ver : %#x\n", parse_elfheader_abiver(test));
-		printf("Type    : %s\n", parse_elfheader_type(test));
+	Elf64_Ehdr *elf_buffer = (Elf64_Ehdr *)buffer;
+	if (valid_elfheader(elf_buffer)) {
+		dump_elfheader(elf_buffer);
 	} else {
 		ret = 1;
 		printf("Not an ELF file\n");
