@@ -55,7 +55,7 @@ static char *parse_elfheader_osabi(Elf64_Ehdr *elf_buf)
 	case ELFOSABI_TRU64:
 		return "TRU64 UNIX";
 	case ELFOSABI_ARM:
-		return "Arm";
+		return "ARM";
 	case ELFOSABI_STANDALONE:
 		return "Stand-alone";
 	}
