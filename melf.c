@@ -108,6 +108,10 @@ int main(int argc, char **argv)
 
 	Elf64_Ehdr *test = (Elf64_Ehdr *)buffer;
 	if (valid_elfheader(test)) {
+		printf("Magic   : ");
+		for (int i = 0; i < EI_NIDENT; i++)
+			printf("%02x ", test->e_ident[i]);
+		printf("\n");
 		printf("Class   : ELF%s\n", parse_elfheader_class(test));
 		printf("Data    : %s\n", parse_elfheader_data(test));
 		printf("Version : %s\n", parse_elfheader_version(test));
