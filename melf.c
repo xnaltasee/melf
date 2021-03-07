@@ -40,6 +40,8 @@ static char *parse_elfheader_version(Elf64_Ehdr *elf_buf)
 static char *parse_elfheader_osabi(Elf64_Ehdr *elf_buf)
 {
 	switch (elf_buf->e_ident[EI_OSABI]) {
+	case ELFOSABI_SYSV:
+		return "UNIX - System V";
 	case ELFOSABI_HPUX:
 		return "HP-UX";
 	case ELFOSABI_NETBSD:
@@ -59,7 +61,7 @@ static char *parse_elfheader_osabi(Elf64_Ehdr *elf_buf)
 	case ELFOSABI_STANDALONE:
 		return "Stand-alone";
 	}
-	return "UNIX - System V";
+	return "Unknown";
 }
 
 static int parse_elfheader_abiver(Elf64_Ehdr *elf_buf)
