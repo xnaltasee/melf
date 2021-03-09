@@ -8,4 +8,4 @@ melf:
 	$(CC) $(CFLAGS) $(FILE_IN) -o $(FILE_OUT)
 
 clean:
-	$(RM) melf
+	$(RM) $(FILE_OUT)
