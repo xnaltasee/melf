@@ -18,6 +18,7 @@ static char *parse_elfheader_class(Elf64_Ehdr *elf_buf)
 	case ELFCLASS64:
 		return "64";
 	}
+
 	return "Unknown";
 }
 
@@ -29,6 +30,7 @@ static char *parse_elfheader_data(Elf64_Ehdr *elf_buf)
 	case ELFDATA2MSB:
 		return "big-endian";
 	}
+
 	return "Unknown";
 }
 
@@ -41,7 +43,7 @@ static char *parse_elfheader_osabi(Elf64_Ehdr *elf_buf)
 {
 	switch (elf_buf->e_ident[EI_OSABI]) {
 	case ELFOSABI_SYSV:
-		return "UNIX - System V";
+		return "UNIX System V";
 	case ELFOSABI_HPUX:
 		return "HP-UX";
 	case ELFOSABI_NETBSD:
@@ -49,18 +51,23 @@ static char *parse_elfheader_osabi(Elf64_Ehdr *elf_buf)
 	case ELFOSABI_LINUX:
 		return "Linux";
 	case ELFOSABI_SOLARIS:
-		return "Solaris";
+		return "Sun Solaris";
 	case ELFOSABI_IRIX:
-		return "IRIX";
+		return "SGI IRIX";
 	case ELFOSABI_FREEBSD:
 		return "FreeBSD";
 	case ELFOSABI_TRU64:
 		return "TRU64 UNIX";
+	case ELFOSABI_OPENBSD:
+		return "OpenBSD";
+	case ELFOSABI_ARMEABI:
+		return "ARM EABI";
 	case ELFOSABI_ARM:
 		return "ARM";
 	case ELFOSABI_STANDALONE:
 		return "Stand-alone";
 	}
+
 	return "Unknown";
 }
 
@@ -84,6 +91,8 @@ static char *parse_elfheader_type(Elf64_Ehdr *elf_buf)
 
 	return "NONE (Uknown type)";
 }
+
+/* TODO: e_machine (architecture) function */
 
 static void dump_elfheader(Elf64_Ehdr *elf_buf)
 {
