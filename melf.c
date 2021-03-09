@@ -60,7 +60,7 @@ static char *parse_elfheader_osabi(Elf64_Ehdr *elf_buf)
 		return "TRU64 UNIX";
 	case ELFOSABI_OPENBSD:
 		return "OpenBSD";
-	case ELFOSABI_ARMEABI:
+	case ELFOSABI_ARM_AEABI:
 		return "ARM EABI";
 	case ELFOSABI_ARM:
 		return "ARM";
