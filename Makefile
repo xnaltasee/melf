@@ -1,5 +1,6 @@
 CC       = gcc
 CFLAGS   = -std=c99 -Wall -Wextra -Wpedantic -Wstrict-prototypes
+RM       = rm -f
 
 FILE_IN  = melf.c
 FILE_OUT = melf
