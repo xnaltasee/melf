@@ -41,32 +41,25 @@ static char *parse_elfheader_version(Elf64_Ehdr *elf_buf)
 
 static char *parse_elfheader_osabi(Elf64_Ehdr *elf_buf)
 {
-	switch (elf_buf->e_ident[EI_OSABI]) {
-	case ELFOSABI_SYSV:
-		return "UNIX System V";
-	case ELFOSABI_HPUX:
-		return "HP-UX";
-	case ELFOSABI_NETBSD:
-		return "NetBSD";
-	case ELFOSABI_LINUX:
-		return "Linux";
-	case ELFOSABI_SOLARIS:
-		return "Sun Solaris";
-	case ELFOSABI_IRIX:
-		return "SGI IRIX";
-	case ELFOSABI_FREEBSD:
-		return "FreeBSD";
-	case ELFOSABI_TRU64:
-		return "TRU64 UNIX";
-	case ELFOSABI_OPENBSD:
-		return "OpenBSD";
-	case ELFOSABI_ARM_AEABI:
-		return "ARM EABI";
-	case ELFOSABI_ARM:
-		return "ARM";
-	case ELFOSABI_STANDALONE:
-		return "Stand-alone";
-	}
+	char *osabi_data[] = {
+		[ELFOSABI_SYSV] = "UNIX System V",
+		[ELFOSABI_HPUX] = "HP-UX",
+		[ELFOSABI_NETBSD] = "NetBSD",
+		[ELFOSABI_LINUX] = "Linux",
+		[ELFOSABI_SOLARIS] = "Sun Solaris",
+		[ELFOSABI_AIX] = "IBM AIX",
+		[ELFOSABI_IRIX] = "SGI IRIX",
+		[ELFOSABI_FREEBSD] = "FreeBSD",
+		[ELFOSABI_TRU64] = "Compaq TRU64 UNIX",
+		[ELFOSABI_MODESTO] = "Novell Modesto",
+		[ELFOSABI_OPENBSD] = "OpenBSD",
+		[ELFOSABI_ARM_AEABI] = "ARM EABI",
+		[ELFOSABI_ARM] = "ARM",
+		[ELFOSABI_STANDALONE] = "Standalone"
+	};
+
+	if (osabi_data[elf_buf->e_ident[EI_OSABI]])
+		return osabi_data[elf_buf->e_ident[EI_OSABI]];
 
 	return "Unknown";
 }
@@ -78,16 +71,15 @@ static int parse_elfheader_abiver(Elf64_Ehdr *elf_buf)
 
 static char *parse_elfheader_type(Elf64_Ehdr *elf_buf)
 {
-	switch (elf_buf->e_type) {
-	case ET_REL:
-		return "REL (Relocatable file)";
-	case ET_EXEC:
-		return "EXEC (Executable file)";
-	case ET_DYN:
-		return "DYN (Shared object)";
-	case ET_CORE:
-		return "CORE (Core file)";
-	}
+	char *elftype_data[] = {
+		[ET_REL] = "REL (Relocatable file)",
+		[ET_EXEC] = "EXEC (Executable file)",
+		[ET_DYN] = "DYN (Shared object)",
+		[ET_CORE] = "CORE (Core file)"
+	};
+
+	if (elftype_data[elf_buf->e_type])
+		return elftype_data[elf_buf->e_type];
 
 	return "NONE (Uknown type)";
 }
