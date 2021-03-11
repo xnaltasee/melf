@@ -48,7 +48,7 @@ static char *parse_elfheader_osabi(Elf64_Ehdr *elf_buf)
 {
 	char *osabi_data[] = {
 		[ELFOSABI_SYSV] = "UNIX System V",
-		[ELFOSABI_HPUX] = "Hewlett-Packard HP-UX",
+		[ELFOSABI_HPUX] = "HP-UX",
 		[ELFOSABI_NETBSD] = "NetBSD",
 		[ELFOSABI_LINUX] = "Linux",
 		[ELFOSABI_SOLARIS] = "Sun Solaris",
