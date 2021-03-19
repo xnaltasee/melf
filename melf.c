@@ -161,8 +161,8 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	size_t r = fread(buffer, sizeof(Elf64_Ehdr), sizeof(*buffer), fp);
-	if (r != sizeof(*buffer)) {
+	size_t r = fread(buffer, sizeof(*buffer), sizeof(Elf64_Ehdr), fp);
+	if (r != sizeof(Elf64_Ehdr)) {
 		ret = 1;
 		perror("fread");
 		goto done;
