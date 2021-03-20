@@ -1,5 +1,5 @@
 CC       = gcc
-CFLAGS   = -std=c99 -Wall -Wextra -Wpedantic -Wstrict-prototypes
+CFLAGS   = -std=c99 -Wall -Wextra -pedantic -Wstrict-prototypes
 RM       = rm -f
 
 FILE_IN  = melf.c
