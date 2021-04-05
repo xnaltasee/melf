@@ -38,10 +38,7 @@ static char *parse_elfheader_data(Elf64_Ehdr *elf_buf)
 
 static char *parse_elfheader_version(Elf64_Ehdr *elf_buf)
 {
-	if (elf_buf->e_ident[EI_VERSION] == EV_CURRENT)
-		return "Current";
-
-	return "Unknown";
+	return !!(elf_buf->e_ident[EI_VERSION]) ? "Current" : "Invalid";
 }
 
 static char *parse_elfheader_osabi(Elf64_Ehdr *elf_buf)
