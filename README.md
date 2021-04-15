@@ -13,6 +13,7 @@ Version                            : Current
 OS/ABI                             : UNIX System V
 ABI version                        : 0
 Type                               : DYN (Shared object)
+Machine                            : AMD x86-64
 Entry virtual address              : 0x6160
 Program header table's file offset : 64 bytes
 Section header table's file offset : 145256 bytes
