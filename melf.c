@@ -86,7 +86,34 @@ static char *parse_elfheader_type(Elf64_Ehdr *elf_buf)
 	return "NONE (Uknown type)";
 }
 
-/* TODO: e_machine (architecture) function */
+static char *parse_elfheader_machine(Elf64_Ehdr *elf_buf)
+{
+	/* This list is from https://man7.org/linux/man-pages/man5/elf.5.html .
+	 * Still not complete but usable for some machine like AMD x86-64 */
+	char *elfmachine_data[] = {
+		[EM_M32] = "AT&T WE 32100",
+		[EM_SPARC] = "Sun Microsystems SPARC",
+		[EM_386] = "Intel 80386",
+		[EM_68K] = "Motorola 68000",
+		[EM_88K] = "Motorola 88000",
+		[EM_MIPS] = "MIPS RS3000 (big endian)",
+		[EM_PARISC] = "HP/PA",
+		[EM_SPARC32PLUS] = "SPARC 32+",
+		[EM_PPC] = "PowerPC",
+		[EM_PPC64] = "PowerPC 64-bit",
+		[EM_S390] = "IBM S/390",
+		[EM_SH] = "Renesas SuperH",
+		[EM_SPARCV9] = "SPARC v9 64-bit",
+		[EM_IA_64] = "Intel Itanium",
+		[EM_X86_64] = "AMD x86-64",
+		[EM_VAX] = "DEC Vax"
+	};
+
+	if (elfmachine_data[elf_buf->e_machine])
+		return elfmachine_data[elf_buf->e_machine];
+
+	return "Unknown";
+}
 
 #define parse_elfheader_entry(e)  e->e_entry
 #define parse_elfheader_phoff(e)  e->e_phoff
@@ -119,6 +146,8 @@ static void dump_elfheader(Elf64_Ehdr *elf_buf)
 				parse_elfheader_abiver(elf_buf));
 	printf("Type                               : %s\n",
 				parse_elfheader_type(elf_buf));
+	printf("Machine                            : %s\n",
+				parse_elfheader_machine(elf_buf));
 	printf("Entry virtual address              : %#lx\n",
 				parse_elfheader_entry(elf_buf));
 	printf("Program header table's file offset : %lu bytes\n",
