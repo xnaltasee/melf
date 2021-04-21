@@ -10,7 +10,7 @@ static int valid_elfheader(Elf64_Ehdr *elf_buf)
 	       elf_buf->e_ident[EI_MAG3] == ELFMAG3;
 }
 
-static char *parse_elfheader_class(Elf64_Ehdr *elf_buf)
+static char *melf_class(Elf64_Ehdr *elf_buf)
 {
 	char *class_data[] = {
 		[ELFCLASS32] = "32",
@@ -23,7 +23,7 @@ static char *parse_elfheader_class(Elf64_Ehdr *elf_buf)
 	return "Unknown";
 }
 
-static char *parse_elfheader_data(Elf64_Ehdr *elf_buf)
+static char *melf_data(Elf64_Ehdr *elf_buf)
 {
 	char *elf_data[] = {
 		[ELFDATA2LSB] = "little-endian",
@@ -36,12 +36,12 @@ static char *parse_elfheader_data(Elf64_Ehdr *elf_buf)
 	return "Unknown";
 }
 
-static char *parse_elfheader_version(Elf64_Ehdr *elf_buf)
+static char *melf_version(Elf64_Ehdr *elf_buf)
 {
 	return !!(elf_buf->e_ident[EI_VERSION]) ? "Current" : "Invalid";
 }
 
-static char *parse_elfheader_osabi(Elf64_Ehdr *elf_buf)
+static char *melf_osabi(Elf64_Ehdr *elf_buf)
 {
 	char *osabi_data[] = {
 		[ELFOSABI_SYSV] = "UNIX System V",
@@ -66,12 +66,12 @@ static char *parse_elfheader_osabi(Elf64_Ehdr *elf_buf)
 	return "Unknown";
 }
 
-static int parse_elfheader_abiver(Elf64_Ehdr *elf_buf)
+static int melf_abiver(Elf64_Ehdr *elf_buf)
 {
 	return elf_buf->e_ident[EI_ABIVERSION];
 }
 
-static char *parse_elfheader_type(Elf64_Ehdr *elf_buf)
+static char *melf_type(Elf64_Ehdr *elf_buf)
 {
 	char *elftype_data[] = {
 		[ET_REL] = "REL (Relocatable file)",
@@ -86,7 +86,7 @@ static char *parse_elfheader_type(Elf64_Ehdr *elf_buf)
 	return "NONE (Uknown type)";
 }
 
-static char *parse_elfheader_machine(Elf64_Ehdr *elf_buf)
+static char *melf_machine(Elf64_Ehdr *elf_buf)
 {
 	/* This list is from https://man7.org/linux/man-pages/man5/elf.5.html .
 	 * Still not complete but usable for some machine like AMD x86-64 */
@@ -115,52 +115,52 @@ static char *parse_elfheader_machine(Elf64_Ehdr *elf_buf)
 	return "Unknown";
 }
 
-static Elf64_Addr parse_elfheader_entry(Elf64_Ehdr *elf_buf)
+static Elf64_Addr melf_entry(Elf64_Ehdr *elf_buf)
 {
 	return elf_buf->e_entry;
 }
 
-static Elf64_Off parse_elfheader_phoff(Elf64_Ehdr *elf_buf)
+static Elf64_Off melf_phoff(Elf64_Ehdr *elf_buf)
 {
 	return elf_buf->e_phoff;
 }
 
-static Elf64_Off parse_elfheader_shoff(Elf64_Ehdr *elf_buf)
+static Elf64_Off melf_shoff(Elf64_Ehdr *elf_buf)
 {
 	return elf_buf->e_shoff;
 }
 
-static uint32_t parse_elfheader_flags(Elf64_Ehdr *elf_buf)
+static uint32_t melf_flags(Elf64_Ehdr *elf_buf)
 {
 	return elf_buf->e_flags;
 }
 
-static uint16_t parse_elfheader_ehsize(Elf64_Ehdr *elf_buf)
+static uint16_t melf_ehsize(Elf64_Ehdr *elf_buf)
 {
 	return elf_buf->e_ehsize;
 }
 
-static uint16_t parse_elfheader_phentsize(Elf64_Ehdr *elf_buf)
+static uint16_t melf_phentsize(Elf64_Ehdr *elf_buf)
 {
 	return elf_buf->e_phentsize;
 }
 
-static uint16_t parse_elfheader_phnum(Elf64_Ehdr *elf_buf)
+static uint16_t melf_phnum(Elf64_Ehdr *elf_buf)
 {
 	return elf_buf->e_phnum;
 }
 
-static uint16_t parse_elfheader_shentsize(Elf64_Ehdr *elf_buf)
+static uint16_t melf_shentsize(Elf64_Ehdr *elf_buf)
 {
 	return elf_buf->e_shentsize;
 }
 
-static uint16_t parse_elfheader_shnum(Elf64_Ehdr *elf_buf)
+static uint16_t melf_shnum(Elf64_Ehdr *elf_buf)
 {
 	return elf_buf->e_shnum;
 }
 
-static uint16_t parse_elfheader_shstrndx(Elf64_Ehdr *elf_buf)
+static uint16_t melf_shstrndx(Elf64_Ehdr *elf_buf)
 {
 	return elf_buf->e_shstrndx;
 }
@@ -174,39 +174,39 @@ static void dump_elfheader(Elf64_Ehdr *elf_buf)
 	printf("\n");
 
 	printf("Class                              : ELF%s\n",
-				parse_elfheader_class(elf_buf));
+				melf_class(elf_buf));
 	printf("Data                               : %s\n",
-				parse_elfheader_data(elf_buf));
+				melf_data(elf_buf));
 	printf("Version                            : %s\n",
-				parse_elfheader_version(elf_buf));
+				melf_version(elf_buf));
 	printf("OS/ABI                             : %s\n",
-				parse_elfheader_osabi(elf_buf));
+				melf_osabi(elf_buf));
 	printf("ABI version                        : %#x\n",
-				parse_elfheader_abiver(elf_buf));
+				melf_abiver(elf_buf));
 	printf("Type                               : %s\n",
-				parse_elfheader_type(elf_buf));
+				melf_type(elf_buf));
 	printf("Machine                            : %s\n",
-				parse_elfheader_machine(elf_buf));
+				melf_machine(elf_buf));
 	printf("Entry virtual address              : %#lx\n",
-				parse_elfheader_entry(elf_buf));
+				melf_entry(elf_buf));
 	printf("Program header table's file offset : %lu bytes\n",
-				parse_elfheader_phoff(elf_buf));
+				melf_phoff(elf_buf));
 	printf("Section header table's file offset : %lu bytes\n",
-				parse_elfheader_shoff(elf_buf));
+				melf_shoff(elf_buf));
 	printf("Flags                              : %#x\n",
-				parse_elfheader_flags(elf_buf));
+				melf_flags(elf_buf));
 	printf("Size of this ELF header            : %u bytes\n",
-				parse_elfheader_ehsize(elf_buf));
+				melf_ehsize(elf_buf));
 	printf("Size of program header table       : %u bytes\n",
-				parse_elfheader_phentsize(elf_buf));
+				melf_phentsize(elf_buf));
 	printf("Number of program header table     : %u\n",
-				parse_elfheader_phnum(elf_buf));
+				melf_phnum(elf_buf));
 	printf("Size of section header's           : %u bytes\n",
-				parse_elfheader_shentsize(elf_buf));
+				melf_shentsize(elf_buf));
 	printf("Number of section header table     : %u\n",
-				parse_elfheader_shnum(elf_buf));
+				melf_shnum(elf_buf));
 	printf("Section header table index         : %u\n",
-				parse_elfheader_shstrndx(elf_buf));
+				melf_shstrndx(elf_buf));
 }
 
 int main(int argc, char **argv)
