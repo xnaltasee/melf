@@ -115,16 +115,55 @@ static char *parse_elfheader_machine(Elf64_Ehdr *elf_buf)
 	return "Unknown";
 }
 
-#define parse_elfheader_entry(e)  e->e_entry
-#define parse_elfheader_phoff(e)  e->e_phoff
-#define parse_elfheader_shoff(e)  e->e_shoff
-#define parse_elfheader_flags(e)  e->e_flags
-#define parse_elfheader_ehsize(e)  e->e_ehsize
-#define parse_elfheader_phentsize(e)  e->e_phentsize
-#define parse_elfheader_phnum(e)  e->e_phnum
-#define parse_elfheader_shentsize(e)  e->e_shentsize
-#define parse_elfheader_shnum(e)  e->e_shnum
-#define parse_elfheader_shstrndx(e)  e->e_shstrndx
+static Elf64_Addr parse_elfheader_entry(Elf64_Ehdr *elf_buf)
+{
+	return elf_buf->e_entry;
+}
+
+static Elf64_Off parse_elfheader_phoff(Elf64_Ehdr *elf_buf)
+{
+	return elf_buf->e_phoff;
+}
+
+static Elf64_Off parse_elfheader_shoff(Elf64_Ehdr *elf_buf)
+{
+	return elf_buf->e_shoff;
+}
+
+static uint32_t parse_elfheader_flags(Elf64_Ehdr *elf_buf)
+{
+	return elf_buf->e_flags;
+}
+
+static uint16_t parse_elfheader_ehsize(Elf64_Ehdr *elf_buf)
+{
+	return elf_buf->e_ehsize;
+}
+
+static uint16_t parse_elfheader_phentsize(Elf64_Ehdr *elf_buf)
+{
+	return elf_buf->e_phentsize;
+}
+
+static uint16_t parse_elfheader_phnum(Elf64_Ehdr *elf_buf)
+{
+	return elf_buf->e_phnum;
+}
+
+static uint16_t parse_elfheader_shentsize(Elf64_Ehdr *elf_buf)
+{
+	return elf_buf->e_shentsize;
+}
+
+static uint16_t parse_elfheader_shnum(Elf64_Ehdr *elf_buf)
+{
+	return elf_buf->e_shnum;
+}
+
+static uint16_t parse_elfheader_shstrndx(Elf64_Ehdr *elf_buf)
+{
+	return elf_buf->e_shstrndx;
+}
 
 static void dump_elfheader(Elf64_Ehdr *elf_buf)
 {
