@@ -216,32 +216,27 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	int ret = 0;
 	errno = 0;
 	unsigned char buffer[sizeof(Elf64_Ehdr)];
 
 	FILE *fp = fopen(argv[1], "rb");
 	if (!fp) {
-		perror("fopen");
+		perror("Error while opening file");
 		return 1;
 	}
 
 	size_t r = fread(buffer, sizeof(*buffer), sizeof(Elf64_Ehdr), fp);
 	if (r != sizeof(Elf64_Ehdr)) {
-		ret = 1;
-		perror("fread");
-		goto done;
+		perror("Error while reading file");
+		fclose(fp);
+		return 1;
 	}
 
 	Elf64_Ehdr *elf_buffer = (Elf64_Ehdr *)buffer;
-	if (valid_elfheader(elf_buffer)) {
+	if (valid_elfheader(elf_buffer))
 		dump_elfheader(elf_buffer);
-	} else {
-		ret = 1;
+	else
 		printf("Not an ELF file\n");
-	}
 
-done:
-	fclose(fp);
-	return ret;
+	return 0;
 }
