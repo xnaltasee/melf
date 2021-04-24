@@ -227,7 +227,11 @@ int main(int argc, char **argv)
 
 	size_t r = fread(buffer, sizeof(*buffer), sizeof(Elf64_Ehdr), fp);
 	if (r != sizeof(Elf64_Ehdr)) {
-		perror("Error while reading file");
+		printf("Error while reading file: ");
+		if (ferror(fp))
+			printf("I/O error\n");
+		else if (feof(fp))
+			printf("EOF reached\n");
 		fclose(fp);
 		return 1;
 	}
