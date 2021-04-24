@@ -238,5 +238,6 @@ int main(int argc, char **argv)
 	else
 		printf("Not an ELF file\n");
 
+	fclose(fp);
 	return 0;
 }
