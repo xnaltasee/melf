@@ -232,6 +232,8 @@ int main(int argc, char **argv)
 			printf("I/O error\n");
 		else if (feof(fp))
 			printf("EOF reached\n");
+		else
+			printf("Unknown error\n");
 		fclose(fp);
 		return 1;
 	}
