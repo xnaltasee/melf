@@ -36,7 +36,7 @@ static char *melf_data(Elf64_Ehdr *elf_buf)
 	return "Unknown";
 }
 
-static char *melf_version(Elf64_Ehdr *elf_buf)
+static char *melf_elfver(Elf64_Ehdr *elf_buf)
 {
 	return !!(elf_buf->e_ident[EI_VERSION]) ? "Current" : "Invalid";
 }
@@ -115,6 +115,11 @@ static char *melf_machine(Elf64_Ehdr *elf_buf)
 	return "Unknown";
 }
 
+static uint32_t melf_version(Elf64_Ehdr *elf_buf)
+{
+	return elf_buf->e_version;
+}
+
 static Elf64_Addr melf_entry(Elf64_Ehdr *elf_buf)
 {
 	return elf_buf->e_entry;
@@ -177,8 +182,8 @@ static void dump_elfheader(Elf64_Ehdr *elf_buf)
 				melf_class(elf_buf));
 	printf("Data                               : %s\n",
 				melf_data(elf_buf));
-	printf("Version                            : %s\n",
-				melf_version(elf_buf));
+	printf("ELF version                        : %s\n",
+				melf_elfver(elf_buf));
 	printf("OS/ABI                             : %s\n",
 				melf_osabi(elf_buf));
 	printf("ABI version                        : %#x\n",
@@ -187,6 +192,8 @@ static void dump_elfheader(Elf64_Ehdr *elf_buf)
 				melf_type(elf_buf));
 	printf("Machine                            : %s\n",
 				melf_machine(elf_buf));
+	printf("Version                            : %#x\n",
+				melf_version(elf_buf));
 	printf("Entry virtual address              : %#lx\n",
 				melf_entry(elf_buf));
 	printf("Program header table's file offset : %lu bytes\n",
