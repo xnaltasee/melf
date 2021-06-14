@@ -227,22 +227,25 @@ int main(int argc, char **argv)
 
 	size_t r = fread(buffer, sizeof(*buffer), sizeof(Elf64_Ehdr), fp);
 	if (r != sizeof(Elf64_Ehdr)) {
-		printf("Error while reading file: ");
+		fprintf(stderr, "Error while reading file: ");
 		if (ferror(fp))
-			printf("I/O error\n");
+			fprintf(stderr, "I/O error\n");
 		else if (feof(fp))
-			printf("EOF reached\n");
+			fprintf(stderr, "EOF reached\n");
 		else
-			printf("Unknown error\n");
+			fprintf(stderr, "Unknown error\n");
 		fclose(fp);
 		return 1;
 	}
 
 	Elf64_Ehdr *elf_buffer = (Elf64_Ehdr *)buffer;
-	if (valid_elfheader(elf_buffer))
+	if (valid_elfheader(elf_buffer)) {
 		dump_elfheader(elf_buffer);
-	else
-		printf("Not an ELF file\n");
+	} else {
+		fprintf(stderr, "Not an ELF file\n");
+		fclose(fp);
+		return 1;
+	}
 
 	fclose(fp);
 	return 0;
